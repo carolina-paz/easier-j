@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Button } from 'react-native';
 import { Audio } from 'expo-av';
 import { FontAwesome } from '@expo/vector-icons';
 
 export default function RecordAudioScreen() {
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
+
+  useEffect(() => {
+    async function requestPermissions() {
+      const response = await Audio.requestPermissionsAsync();
+      if (response.status !== 'granted') {
+        alert('Permission to access microphone is required!');
+      }
+    }
+    requestPermissions();
+  }, []);
 
   const recordingOptions = {
     android: {
