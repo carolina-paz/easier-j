@@ -4,6 +4,8 @@ import { Audio } from 'expo-av';
 import { FontAwesome } from '@expo/vector-icons';
 import axios from 'axios'
 import FormData from 'form-data';
+require('dotenv').config(); 
+const apiKey = process.env.OPENAI_API_KEY; 
 
 
 export default function RecordAudioScreen() {
@@ -76,14 +78,12 @@ export default function RecordAudioScreen() {
       type: 'audio/x-caf',
       name: 'audio.caf',
     } as any);
-  
-    formData.append('model', 'whisper-1'); // Asegúrate de incluir el modelo
-  
+    formData.append('model', 'whisper-1'); 
     try {
       const response = await axios.post('https://api.openai.com/v1/audio/transcriptions', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer sk-proj-Qry6ZWxM0dIbcicfNpufT3BlbkFJFzPkqU4zR5OrcPa0avFs`,
+          'Authorization': `Bearer ${apiKey}`,
         },
       });
       setTranscription(response.data.text);
